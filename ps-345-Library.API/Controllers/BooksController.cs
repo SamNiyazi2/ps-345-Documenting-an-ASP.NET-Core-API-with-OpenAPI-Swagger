@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Library.API.Models;
 using Library.API.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Library.API.Controllers
     [Route("api/authors/{authorId}/books")]
     [ApiController]
     public class BooksController : ControllerBase
-    { 
+    {
         private readonly IBookRepository _bookRepository;
         private readonly IAuthorRepository _authorRepository;
         private readonly IMapper _mapper;
@@ -25,26 +26,52 @@ namespace Library.API.Controllers
             _authorRepository = authorRepository;
             _mapper = mapper;
         }
-       
+
         [HttpGet()]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks(
-        Guid authorId )
+        Guid authorId)
         {
             if (!await _authorRepository.AuthorExistsAsync(authorId))
             {
                 return NotFound();
             }
 
-            var booksFromRepo = await _bookRepository.GetBooksAsync(authorId); 
+            var booksFromRepo = await _bookRepository.GetBooksAsync(authorId);
             return Ok(_mapper.Map<IEnumerable<Book>>(booksFromRepo));
         }
 
+        // 03/12/2022 02:34 am - SSN - [20220312-0232] - [001] - M04-04 - Demo - Describing response types (status codes) with ProducesResponseType
+
+        /// <summary>
+        /// Get a book by author Id and book ID 
+        /// </summary>
+        /// <param name="authorId">The id of the author</param>
+        /// <param name="bookId">THe id of the book</param>
+        /// <returns>An ActionResuot of type Book</returns>
+        /// <response code="200">Returns the request book</response>
         [HttpGet("{bookId}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+
+        // 03/12/2022 02:41 am - SSN - [20220312-0232] - [002] - M04-04 - Demo - Describing response types (status codes) with ProducesResponseType
+        // We can pass the type when using IActionResult instead of ActionResult(Book) for 200 result to show model example.
+
+        // [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Book))]
+        // public async Task<IActionResult> GetBook(
+
+        // Best practice to use ActionResult<Book>
+        // Best practice to use ActionResult<Book>
+        // Best practice to use ActionResult<Book>
         public async Task<ActionResult<Book>> GetBook(
             Guid authorId,
             Guid bookId)
         {
-            if (! await _authorRepository.AuthorExistsAsync(authorId))
+            // End [20220312-0232] - [002] 
+
+
+
+            if (!await _authorRepository.AuthorExistsAsync(authorId))
             {
                 return NotFound();
             }
