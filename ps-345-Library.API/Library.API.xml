@@ -8,8 +8,28 @@
             <summary>
             Get an author by his/her id
             </summary>
-            <param name="authorId">The if of the author to get</param>
-            <returns>An author with id, firstName and lastName fields</returns>
+            <param name="authorId">The id of the author to get</param>
+            <returns>An ActionResult of type Author. NOT visible in Swagger documentation.</returns>
+        </member>
+        <member name="T:Library.API.Models.Author">
+            <summary>
+            An author with id, FirstName and LastName fields
+            </summary>
+        </member>
+        <member name="P:Library.API.Models.Author.Id">
+            <summary>
+            The author's Id
+            </summary>
+        </member>
+        <member name="P:Library.API.Models.Author.FirstName">
+            <summary>
+            The author's first name
+            </summary>
+        </member>
+        <member name="P:Library.API.Models.Author.LastName">
+            <summary>
+            The author's last name
+            </summary>
         </member>
     </members>
 </doc>

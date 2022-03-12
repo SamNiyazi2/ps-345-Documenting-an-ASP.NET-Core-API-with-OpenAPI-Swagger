@@ -7,8 +7,12 @@ namespace Library.API.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "PS_345");
+
             migrationBuilder.CreateTable(
                 name: "Authors",
+                schema: "PS_345",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -22,6 +26,7 @@ namespace Library.API.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Books",
+                schema: "PS_345",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -36,12 +41,14 @@ namespace Library.API.Migrations
                     table.ForeignKey(
                         name: "FK_Books_Authors_AuthorId",
                         column: x => x.AuthorId,
+                        principalSchema: "PS_345",
                         principalTable: "Authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
+                schema: "PS_345",
                 table: "Authors",
                 columns: new[] { "Id", "FirstName", "LastName" },
                 values: new object[,]
@@ -53,6 +60,7 @@ namespace Library.API.Migrations
                 });
 
             migrationBuilder.InsertData(
+                schema: "PS_345",
                 table: "Books",
                 columns: new[] { "Id", "AmountOfPages", "AuthorId", "Description", "Title" },
                 values: new object[,]
@@ -66,6 +74,7 @@ namespace Library.API.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_AuthorId",
+                schema: "PS_345",
                 table: "Books",
                 column: "AuthorId");
         }
@@ -73,10 +82,12 @@ namespace Library.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Books");
+                name: "Books",
+                schema: "PS_345");
 
             migrationBuilder.DropTable(
-                name: "Authors");
+                name: "Authors",
+                schema: "PS_345");
         }
     }
 }

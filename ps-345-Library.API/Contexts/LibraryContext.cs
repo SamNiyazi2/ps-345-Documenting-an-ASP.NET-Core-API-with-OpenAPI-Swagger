@@ -17,6 +17,11 @@ namespace Library.API.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
+            // 03/11/2022 09:23 pm - SSN - [20220311-2045] - [004] - M03-06 - Demo - Incorporating XML comments on model classes
+            modelBuilder.HasDefaultSchema("PS_345");
+
+
             // seed the database with dummy data
             modelBuilder.Entity<Author>().HasData(
                 new Author()
