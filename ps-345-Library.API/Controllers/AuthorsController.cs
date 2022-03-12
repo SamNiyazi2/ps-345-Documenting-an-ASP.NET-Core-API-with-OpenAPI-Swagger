@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Library.API.Controllers
 {
@@ -38,7 +39,13 @@ namespace Library.API.Controllers
         /// </summary>
         /// <param name="authorId">The id of the author to get</param>
         /// <returns>An ActionResult of type Author. NOT visible in Swagger documentation.</returns>
+
+        // 03/12/2022 04:54 am - SSN - [20220312-0304] - [007] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
+
         [HttpGet("{authorId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Author>> GetAuthor(
             Guid authorId)
         {
@@ -52,6 +59,10 @@ namespace Library.API.Controllers
         }
 
         [HttpPut("{authorId}")]
+        // 03/12/2022 04:27 am - SSN - [20220312-0304] - [003] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Author>> UpdateAuthor(
             Guid authorId,
             AuthorForUpdate authorForUpdate)
@@ -90,7 +101,14 @@ namespace Library.API.Controllers
         ///     }\
         /// ]
         /// </remarks>
+     
+        // 03/12/2022 04:54 am - SSN - [20220312-0304] - [006] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
+
         [HttpPatch("{authorId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Author>> UpdateAuthor(
             Guid authorId,
             JsonPatchDocument<AuthorForUpdate> patchDocument)

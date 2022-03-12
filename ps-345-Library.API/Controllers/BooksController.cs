@@ -11,6 +11,11 @@ namespace Library.API.Controllers
 {
     [Route("api/authors/{authorId}/books")]
     [ApiController]
+    // 03/12/2022 04:35 am - SSN - [20220312-0304] - [004] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
+    // Removed.  Applied globally [20220312-0304] - [005] 
+    //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+    //[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+    //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class BooksController : ControllerBase
     {
         private readonly IBookRepository _bookRepository;
@@ -28,6 +33,10 @@ namespace Library.API.Controllers
         }
 
         [HttpGet()]
+        // 03/12/2022 04:17 am - SSN - [20220312-0304] - [001] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks(
         Guid authorId)
         {
@@ -87,6 +96,10 @@ namespace Library.API.Controllers
 
 
         [HttpPost()]
+        // 03/12/2022 04:23 am - SSN - [20220312-0304] - [002] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Book>> CreateBook(
             Guid authorId,
             [FromBody] BookForCreation bookForCreation)

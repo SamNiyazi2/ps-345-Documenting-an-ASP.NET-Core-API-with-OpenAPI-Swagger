@@ -37,8 +37,6 @@
             <param name="bookId">THe id of the book</param>
             <returns>An ActionResuot of type Book</returns>
             <response code="200">Returns the request book</response>
-            <response code="400">Returns a detailed message of the error</response>
-            <response code="404">Returns not found message</response>
         </member>
         <member name="T:Library.API.Models.Author">
             <summary>
