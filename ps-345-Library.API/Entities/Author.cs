@@ -6,6 +6,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Library.API.Entities
 {
 
+    // 03/12/2022 01:26 am - SSN - [20220311-2302] - [001] - M03-09 - Ignoring warnings where appropriate
+#pragma warning disable CS1591
+
+
     [Table("Authors")]
     public class Author
     {
@@ -22,4 +26,10 @@ namespace Library.API.Entities
 
         public ICollection<Book> Books { get; set; } = new List<Book>();
     }
+    
+    
+    // 03/12/2022 01:26 am - SSN - [20220311-2302] - [001] - M03-09 - Ignoring warnings where appropriate
+#pragma warning restore CS1591
+
+
 }
