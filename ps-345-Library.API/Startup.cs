@@ -50,7 +50,7 @@ namespace Library.API
             // it's better to store the connection string in an environment variable)
             var connectionString = Configuration["ConnectionStrings:LibraryDBConnectionString"];
             services.AddDbContext<LibraryContext>(o => o.UseSqlServer(connectionString));
-            
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = actionContext =>
@@ -85,7 +85,7 @@ namespace Library.API
                    "LibraryOpenApiSpecification",
                    new Microsoft.OpenApi.Models.OpenApiInfo()
                    {
-                       Title = "Libary API",
+                       Title = "ps-345-WebAPI - Swagger - Library API",
                        Version = "1"
                    });
            });
@@ -108,12 +108,23 @@ namespace Library.API
 
             app.UseHttpsRedirection();
 
-            
-            
+
+
             // 03/11/2022 06:25 pm - SSN - [20220310-1628] - [002] - M03-03 - Demo - Installing Swashbuckle
             // After UseHttpsRedirection
             app.UseSwagger();
 
+
+            // 03/11/2022 07:17 pm - SSN - [20220311-1915] - [001] - M03-04 - Demo - Adding Swagger UI
+            app.UseSwaggerUI(setupAction =>
+            {
+                setupAction.SwaggerEndpoint(
+                    "/swagger/LibraryOpenApiSpecification/swagger.json",
+                    "Name-102: ps-345-WebAPI - Swagger UI - Library API");
+
+                setupAction.RoutePrefix = ""; // Makes the docs the default URL
+
+            });
 
 
             app.UseStaticFiles();
