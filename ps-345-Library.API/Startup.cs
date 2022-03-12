@@ -90,6 +90,26 @@ namespace Library.API
                    {
                        Title = "ps-345-WebAPI - Swagger - Library API",
                        Version = "1"
+                       ,
+
+                       // 03/12/2022 01:42 am - SSN - [20220312-0140] - [001] - M03-10 - Demo - Adding API information and description
+                       Description = "Through this API you can access authors and their books."
+                       ,
+                       Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                       {
+                           Email = "sam-ps-345-API@nonbs.com",
+                           Name = "Sam Niyazi",
+                           Url = new Uri("https://ps345api.niyazi.com/contact")
+                       }
+                       ,
+                       License = new Microsoft.OpenApi.Models.OpenApiLicense
+                       {
+                           Name = "MIT",
+                           Url = new Uri("https://opensource.org/licenses/MIT")
+                       }
+                       ,
+                       TermsOfService = new Microsoft.OpenApi.Models.OpenApiInfo().TermsOfService = new Uri("https://ps345api.niyazi.com/termsofservice")
+
                    });
 
                // 03/11/2022 08:28 pm - SSN - [20220311-1947] - [002] - M03-05 - Incorporating XML comments on actions
