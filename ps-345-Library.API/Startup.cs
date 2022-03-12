@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Library.API
 {
@@ -88,6 +91,15 @@ namespace Library.API
                        Title = "ps-345-WebAPI - Swagger - Library API",
                        Version = "1"
                    });
+
+               // 03/11/2022 08:28 pm - SSN - [20220311-1947] - [002] - M03-05 - Incorporating XML comments on actions
+               // We XML Documentation file: Project properties > build > output > XML Documentation file.
+               var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+               var xmlcommentFileWithFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+
+               setupAction.IncludeXmlComments(xmlcommentFileWithFullPath);
+
+
            });
 
         }

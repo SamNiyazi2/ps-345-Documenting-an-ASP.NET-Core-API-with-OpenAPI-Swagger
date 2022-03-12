@@ -32,6 +32,12 @@ namespace Library.API.Controllers
             return Ok(_mapper.Map<IEnumerable<Author>>(authorsFromRepo));
         }
 
+        // 03/11/2022 08:20 pm - SSN - [20220311-1947] - [001] - M03-05 - Incorporating XML comments on actions
+        /// <summary>
+        /// Get an author by his/her id
+        /// </summary>
+        /// <param name="authorId">The id of the author to get</param>
+        /// <returns>An ActionResult of type Author. NOT visible in Swagger documentation.</returns>
         [HttpGet("{authorId}")]
         public async Task<ActionResult<Author>> GetAuthor(
             Guid authorId)
@@ -63,7 +69,7 @@ namespace Library.API.Controllers
             await _authorsRepository.SaveChangesAsync();
 
             // return the author
-            return Ok(_mapper.Map<Author>(authorFromRepo)); 
+            return Ok(_mapper.Map<Author>(authorFromRepo));
         }
 
         [HttpPatch("{authorId}")]
