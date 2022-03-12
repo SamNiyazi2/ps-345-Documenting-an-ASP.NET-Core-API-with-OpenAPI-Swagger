@@ -72,6 +72,24 @@ namespace Library.API.Controllers
             return Ok(_mapper.Map<Author>(authorFromRepo));
         }
 
+
+        // 03/11/2022 10:40 pm - SSN - [20220311-2235] - [001] - M03-08 - Improving documentation with examples
+        /// <summary>
+        /// Partially update an author
+        /// </summary>
+        /// <param name="authorId">The id of the author you want to update</param>
+        /// <param name="patchDocument">The set of operations to apply</param>
+        /// <returns>An ActionResult of type Author.  Does not display in API documenation.</returns>
+        /// <remarks>
+        /// Sample request (this request updates the author's first name)
+        /// [\
+        ///     {\
+        ///         "op": "replace",\
+        ///         "path": "/afirstname",\
+        ///         "value": "new first name"\
+        ///     }\
+        /// ]
+        /// </remarks>
         [HttpPatch("{authorId}")]
         public async Task<ActionResult<Author>> UpdateAuthor(
             Guid authorId,

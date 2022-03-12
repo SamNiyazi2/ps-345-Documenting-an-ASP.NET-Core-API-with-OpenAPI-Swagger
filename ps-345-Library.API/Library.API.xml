@@ -11,6 +11,24 @@
             <param name="authorId">The id of the author to get</param>
             <returns>An ActionResult of type Author. NOT visible in Swagger documentation.</returns>
         </member>
+        <member name="M:Library.API.Controllers.AuthorsController.UpdateAuthor(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Library.API.Models.AuthorForUpdate})">
+            <summary>
+            Partially update an author
+            </summary>
+            <param name="authorId">The id of the author you want to update</param>
+            <param name="patchDocument">The set of operations to apply</param>
+            <returns>An ActionResult of type Author.  Does not display in API documenation.</returns>
+            <remarks>
+            Sample request (this request updates the author's first name)
+            [\
+                {\
+                    "op": "replace",\
+                    "path": "/afirstname",\
+                    "value": "new first name"\
+                }\
+            ]
+            </remarks>
+        </member>
         <member name="T:Library.API.Models.Author">
             <summary>
             An author with id, FirstName and LastName fields
@@ -32,11 +50,11 @@
             </summary>
         </member>
         <member name="P:Library.API.Models.AuthorForUpdate.FirstName">
-            <summary>The firt name of the authror</summary>
+            <summary>The firt name of the author</summary>
         </member>
         <member name="P:Library.API.Models.AuthorForUpdate.LastName">
             <summary>
-            The last name of the authror
+            The last name of the author
             </summary>
         </member>
     </members>
