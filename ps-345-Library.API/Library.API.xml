@@ -31,5 +31,13 @@
             The author's last name
             </summary>
         </member>
+        <member name="P:Library.API.Models.AuthorForUpdate.FirstName">
+            <summary>The firt name of the authror</summary>
+        </member>
+        <member name="P:Library.API.Models.AuthorForUpdate.LastName">
+            <summary>
+            The last name of the authror
+            </summary>
+        </member>
     </members>
 </doc>
