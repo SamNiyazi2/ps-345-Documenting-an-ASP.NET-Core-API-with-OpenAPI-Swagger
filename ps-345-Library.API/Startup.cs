@@ -76,6 +76,20 @@ namespace Library.API
             services.AddScoped<IAuthorRepository, AuthorRepository>();
 
             services.AddAutoMapper();
+
+            // 03/11/2022 06:21 pm - SSN - [20220310-1628] - [001] - M03-03 - Demo - Installing Swashbuckle
+
+            services.AddSwaggerGen(setupAction =>
+           {
+               setupAction.SwaggerDoc(
+                   "LibraryOpenApiSpecification",
+                   new Microsoft.OpenApi.Models.OpenApiInfo()
+                   {
+                       Title = "Libary API",
+                       Version = "1"
+                   });
+           });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,6 +107,14 @@ namespace Library.API
             }
 
             app.UseHttpsRedirection();
+
+            
+            
+            // 03/11/2022 06:25 pm - SSN - [20220310-1628] - [002] - M03-03 - Demo - Installing Swashbuckle
+            // After UseHttpsRedirection
+            app.UseSwagger();
+
+
 
             app.UseStaticFiles();
 
