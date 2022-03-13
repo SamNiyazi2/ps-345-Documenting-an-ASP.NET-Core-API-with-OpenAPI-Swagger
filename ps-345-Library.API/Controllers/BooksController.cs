@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Library.API.Controllers
 {
+
+    // 03/12/2022 10:25 pm - SSN - [20220312-2220] - [001] - M04-10 - Demo - Specifying the response body type with the Produces attribute
+    [Produces("application/json", "application/xml")]
     [Route("api/authors/{authorId}/books")]
     [ApiController]
     // 03/12/2022 04:35 am - SSN - [20220312-0304] - [004] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 

@@ -18,6 +18,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\ConventionTestsontroller.cs" />
+    <Compile Remove="CustomConventions\CustomConvention.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="wwwroot\Assets\custom-ui.css" />
   </ItemGroup>
 
@@ -28,6 +33,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CustomConventions\" />
   </ItemGroup>
 
 </Project>

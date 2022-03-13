@@ -41,6 +41,11 @@ namespace Library.API
 
                 setupAction.ReturnHttpNotAcceptable = true;
 
+
+                // 03/12/2022 10:34 pm - SSN - [20220312-2220] - [002] - M04-10 - Demo - Specifying the response body type with the Produces attribute
+                setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+
+
                 var jsonOutputFormatter = setupAction.OutputFormatters
                     .OfType<JsonOutputFormatter>().FirstOrDefault();
 
