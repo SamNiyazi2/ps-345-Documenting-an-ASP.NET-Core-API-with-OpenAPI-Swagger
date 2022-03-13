@@ -12,7 +12,9 @@ namespace Library.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     // [20220312-1544] - [001]
-    [ApiConventionType(typeof(DefaultApiConventions))]
+    // 03/12/2022 09:19 pm - SSN - [20220312-1849] - [003] - M04-07 - Creating custom conventions
+    //[ApiConventionType(typeof(DefaultApiConventions))]
+    [ApiConventionType(typeof(CustomConventions.CustomConvention))]
     public class ConventionTestsontroller : ControllerBase
     {
         // GET: api/<ConventionTestsontroller>
@@ -32,11 +34,18 @@ namespace Library.API.Controllers
             return "value";
         }
 
+
         // POST api/<ConventionTestsontroller>
         [HttpPost]
-        public void Post([FromBody] string value)
+        // 03/12/2022 06:49 pm - SSN - [20220312-1849] - [001] - M04-07 - Creating custom conventions
+        // Produces only 200 without the CustomConvention
+        // [20220312-1849] - [003]
+        //[ApiConventionMethod(typeof(CustomConventions.CustomConvention), nameof(CustomConventions.CustomConvention.Insert))]
+        //public void Post([FromBody] string value)
+        public void InsertTest([FromBody] string value)
         {
         }
+
 
         // PUT api/<ConventionTestsontroller>/5
         [HttpPut("{id}")]
