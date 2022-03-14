@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Library.API.Contexts;
+using Library.API.OperationFilters;
 using Library.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,9 +34,12 @@ namespace Library.API
             services.AddMvc(setupAction =>
             {
                 // 03/12/2022 04:38 am - SSN - [20220312-0304] - [005] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
-                //setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
-                //setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
-                //setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+                // 03/13/2022 11:38 pm - SSN - [20220313-2050] - [004] - M05-06 - Demo - Supporting schema variation by media type (Output IOperationFilter))
+                // Reactivate and add ProducesDefaultResponseTypeAttribute 
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+                setupAction.Filters.Add(new ProducesDefaultResponseTypeAttribute());
 
 
 
@@ -125,12 +129,57 @@ namespace Library.API
 
                    });
 
+
+
+
+
+               // 03/13/2022 10:58 pm - SSN - [20220313-2050] - [003] - M05-06 - Demo - Supporting schema variation by media type (Output IOperationFilter))
+               // Fix for missing OperationId in OperationFilter.
+               // https://stackoverflow.com/questions/52262826/asp-net-core-swashbuckle-set-operationid
+               setupAction.CustomOperationIds(o =>
+                                                 // $"{o.ActionDescriptor.RouteValues["controller"]}_{o.HttpMethod}"
+                                                 $"{o.ActionDescriptor.RouteValues["controller"]}_{o.ActionDescriptor.RouteValues["action"]}"
+                                       );
+
+
+               // 03/13/2022 08:34 pm - SSN - [20220313-2034] - [001] - M05-05 - Demo - Supporting schema variation by media type (Output ResolveConflictingActions)
+
+               // 03/14/2022 12:44 am - SSN - [20220313-2050] - [006] - M05-06 - Demo - Supporting schema variation by media type (Output IOperationFilter))
+               // By adding  [ApiExplorerSettings(IgnoreApi = true)] to the duplicate action method, we no longer have a conflict. ResolveConflictingActions
+               //  is no longer needed.
+               //setupAction.ResolveConflictingActions(apiDescriptions =>
+               //{
+
+               //    // Not a valid solution.
+               //    return apiDescriptions.First();
+
+               //    //// Errors out on adding duplicate key 200.
+               //    //var description1 = apiDescriptions.ElementAt(0);
+               //    //var description2 = apiDescriptions.ElementAt(1);
+
+               //    //description1.SupportedResponseTypes.AddRange(
+               //    //     description2.SupportedResponseTypes.Where(a => a.StatusCode == 200)
+               //    //     );
+
+               //    //return description1;
+               //});
+
+               // 03/13/2022 08:55 pm - SSN - [20220313-2050] - [002] - M05-06 - Demo - Supporting schema variation by media type (Output IOperationFilter))
+
+               setupAction.OperationFilter<GetBookOperationFilter>();
+
+
+
+
+
                // 03/11/2022 08:28 pm - SSN - [20220311-1947] - [002] - M03-05 - Incorporating XML comments on actions
                // We XML Documentation file: Project properties > build > output > XML Documentation file.
                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                var xmlcommentFileWithFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
 
                setupAction.IncludeXmlComments(xmlcommentFileWithFullPath);
+
+
 
 
            });

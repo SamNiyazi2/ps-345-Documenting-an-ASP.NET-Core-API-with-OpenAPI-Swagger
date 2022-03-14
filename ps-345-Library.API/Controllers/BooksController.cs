@@ -126,6 +126,10 @@ namespace Library.API.Controllers
         [Produces(MediaTypesConstants.APPLICATION_VND_MARVIN_BOOKWITHCONCATENATEDAUTHORNAME_JSON)]
         [RequestHeaderMatchesMediaType(HeaderNames.Accept, MediaTypesConstants.APPLICATION_VND_MARVIN_BOOKWITHCONCATENATEDAUTHORNAME_JSON)]
 
+        // 03/14/2022 12:42 am - SSN - [20220313-2050] - [005] - M05-06 - Demo - Supporting schema variation by media type (Output IOperationFilter))
+        // Prevents Conflict.  Need for ResolveConflictingActions.
+
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ActionResult<BookWithConcatenatedAuthorName>> GetBookWithConcatenatedAuthorName(
             Guid authorId,
             Guid bookId)
