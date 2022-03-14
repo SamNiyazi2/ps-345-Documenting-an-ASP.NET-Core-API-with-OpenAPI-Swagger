@@ -103,6 +103,16 @@ namespace Library.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
+
+        // 03/12/2022 11:26 pm - SSN - [20220312-2256] - [001] - M04-11 - Demo - Specifying the request body type with the Consumes attribute
+        // Defaults before adding were:
+        // application/json-patch+json
+        // application/json
+        // text/json
+        // application/*+json
+        [Consumes("application/json")]
+
+
         public async Task<ActionResult<Book>> CreateBook(
             Guid authorId,
             [FromBody] BookForCreation bookForCreation)
