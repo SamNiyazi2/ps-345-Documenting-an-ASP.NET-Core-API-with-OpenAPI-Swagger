@@ -38,6 +38,15 @@
             <returns>An ActionResuot of type Book</returns>
             <response code="200">Returns the request book</response>
         </member>
+        <member name="M:Library.API.Controllers.BooksController.GetBookWithConcatenatedAuthorName(System.Guid,System.Guid)">
+            <summary>
+            Get a book by author Id and book ID 
+            </summary>
+            <param name="authorId">The id of the author</param>
+            <param name="bookId">THe id of the book</param>
+            <returns>An ActionResuot of type BookWithConcatenatedAuthorName</returns>
+            <response code="200">Returns the request book</response>
+        </member>
         <member name="T:Library.API.Models.Author">
             <summary>
             An author with id, FirstName and LastName fields

@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Library.API.Attributes;
+using Library.API.Constants;
 using Library.API.Models;
 using Library.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,7 +14,7 @@ namespace Library.API.Controllers
 {
 
     // 03/12/2022 10:25 pm - SSN - [20220312-2220] - [001] - M04-10 - Demo - Specifying the response body type with the Produces attribute
-    [Produces("application/json", "application/xml")]
+    [Produces(MediaTypesConstants.APPLICATION_JSON, MediaTypesConstants.APPLICATION_XML)]
     [Route("api/authors/{authorId}/books")]
     [ApiController]
     // 03/12/2022 04:35 am - SSN - [20220312-0304] - [004] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
@@ -75,6 +78,10 @@ namespace Library.API.Controllers
         // Best practice to use ActionResult<Book>
         // Best practice to use ActionResult<Book>
         // Best practice to use ActionResult<Book>
+
+        // 03/13/2022 07:12 pm - SSN - [20220313-1902] - [002] - M05-03 - Demo - Supporting vendor-specific media types
+        [Produces(MediaTypesConstants.APPLICATION_VND_MARVIN_BOOK_JSON)]
+        [RequestHeaderMatchesMediaType(HeaderNames.Accept, MediaTypesConstants.APPLICATION_JSON, MediaTypesConstants.APPLICATION_VND_MARVIN_BOOK_JSON)]
         public async Task<ActionResult<Book>> GetBook(
             Guid authorId,
             Guid bookId)
@@ -98,6 +105,50 @@ namespace Library.API.Controllers
         }
 
 
+
+
+        // 03/13/2022 07:08 pm - SSN - [20220313-1902] - [001] - M05-03 - Demo - Supporting vendor-specific media types
+
+
+        /// <summary>
+        /// Get a book by author Id and book ID 
+        /// </summary>
+        /// <param name="authorId">The id of the author</param>
+        /// <param name="bookId">THe id of the book</param>
+        /// <returns>An ActionResuot of type BookWithConcatenatedAuthorName</returns>
+        /// <response code="200">Returns the request book</response>
+        [HttpGet("{bookId}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+
+        // 03/13/2022 07:15 pm - SSN - [20220313-1902] - [003] - M05-03 - Demo - Supporting vendor-specific media types
+        [Produces(MediaTypesConstants.APPLICATION_VND_MARVIN_BOOKWITHCONCATENATEDAUTHORNAME_JSON)]
+        [RequestHeaderMatchesMediaType(HeaderNames.Accept, MediaTypesConstants.APPLICATION_VND_MARVIN_BOOKWITHCONCATENATEDAUTHORNAME_JSON)]
+
+        public async Task<ActionResult<BookWithConcatenatedAuthorName>> GetBookWithConcatenatedAuthorName(
+            Guid authorId,
+            Guid bookId)
+        {
+
+            if (!await _authorRepository.AuthorExistsAsync(authorId))
+            {
+                return NotFound();
+            }
+
+            var bookFromRepo = await _bookRepository.GetBookAsync(authorId, bookId);
+            if (bookFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<BookWithConcatenatedAuthorName>(bookFromRepo));
+        }
+
+
+
+
+
         [HttpPost()]
         // 03/12/2022 04:23 am - SSN - [20220312-0304] - [002] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -110,7 +161,7 @@ namespace Library.API.Controllers
         // application/json
         // text/json
         // application/*+json
-        [Consumes("application/json")]
+        [Consumes(MediaTypesConstants.APPLICATION_JSON)]
 
 
         public async Task<ActionResult<Book>> CreateBook(
