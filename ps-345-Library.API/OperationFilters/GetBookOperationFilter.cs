@@ -21,7 +21,7 @@ namespace Library.API.OperationFilters
             OpenApiSchema newSchema = context.SchemaGenerator.GenerateSchema(typeof(Models.BookWithConcatenatedAuthorName), context.SchemaRepository);
 
             operation.Responses[StatusCodes.Status200OK.ToString()].Content.Add(
-                MediaTypesConstants.APPLICATION_VND_MARVIN_BOOKWITHCONCATENATEDAUTHORNAME_JSON,
+                MediaTypesConstants.APPLICATION_VND_MARVIN_BookWithConcatenatedAuthorName_JSON,
                 new OpenApiMediaType()
                 {
                     // No context.SchemaRegistry.  Only Repository and Generator

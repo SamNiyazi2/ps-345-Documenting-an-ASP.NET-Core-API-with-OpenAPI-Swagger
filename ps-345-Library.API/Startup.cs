@@ -41,6 +41,8 @@ namespace Library.API
                 setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
                 setupAction.Filters.Add(new ProducesDefaultResponseTypeAttribute());
 
+                // 03/14/2022 01:49 am - SSN - [20220314-0111] - [006] - M05-08 - Demo - Supporting schema variation by media type (Input)
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status415UnsupportedMediaType));
 
 
                 setupAction.ReturnHttpNotAcceptable = true;
@@ -167,6 +169,11 @@ namespace Library.API
                // 03/13/2022 08:55 pm - SSN - [20220313-2050] - [002] - M05-06 - Demo - Supporting schema variation by media type (Output IOperationFilter))
 
                setupAction.OperationFilter<GetBookOperationFilter>();
+
+
+               // 03/14/2022 01:37 am - SSN - [20220314-0111] - [005] - M05-08 - Demo - Supporting schema variation by media type (Input)
+               setupAction.OperationFilter<CreateBookOperationFilter>();
+
 
 
 
