@@ -15,11 +15,19 @@ namespace Library.API.Controllers
 
     // 03/12/2022 10:25 pm - SSN - [20220312-2220] - [001] - M04-10 - Demo - Specifying the response body type with the Produces attribute
     [Produces(MediaTypesConstants.APPLICATION_JSON, MediaTypesConstants.APPLICATION_XML)]
-    [Route("api/authors/{authorId}/books")]
+
+    // 03/15/2022 06:25 pm - SSN - [20220315-1713] - [010] - M06-05 - Demo - Versioning your API
+    // [Route("api/authors/{authorId}/books")]
+    // [Route("api/v{version:apiVersion}/authors/{authorId}/books")]
+    [Route("api/v1.0/authors/{authorId}/books")]
+
+
     [ApiController]
 
     // 03/15/2022 04:33 pm - SSN - [20220315-1627] - [005] - M06-03 - Demo - Working with multiple OpenAPI specifications
-    [ApiExplorerSettings(GroupName = "LibraryOpenApiSpecificationBooks")]
+    // 03/15/2022 05:20 pm - SSN - [20220315-1713] - [003] - M06-05 - Demo - Versioning your API
+    // Removed multiple specification.  Used in Bbranch m06-03 only.
+    // [ApiExplorerSettings(GroupName = "LibraryOpenApiSpecificationBooks")]
 
     // 03/12/2022 04:35 am - SSN - [20220312-0304] - [004] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
     // Removed.  Applied globally [20220312-0304] - [005] 
