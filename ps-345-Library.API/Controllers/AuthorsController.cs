@@ -13,6 +13,9 @@ namespace Library.API.Controllers
 
     [Route("api/authors")]
     [ApiController]
+    // 03/15/2022 04:32 pm - SSN - [20220315-1627] - [004] - M06-03 - Demo - Working with multiple OpenAPI specifications
+
+    [ApiExplorerSettings(GroupName = "LibraryOpenApiSpecificationAuthors")]
     public class AuthorsController : ControllerBase
     {
         private readonly IAuthorRepository _authorsRepository;
@@ -101,7 +104,7 @@ namespace Library.API.Controllers
         ///     }\
         /// ]
         /// </remarks>
-     
+
         // 03/12/2022 04:54 am - SSN - [20220312-0304] - [006] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
 
         [HttpPatch("{authorId}")]

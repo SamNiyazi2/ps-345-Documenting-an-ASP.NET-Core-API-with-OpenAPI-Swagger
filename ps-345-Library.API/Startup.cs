@@ -104,15 +104,18 @@ namespace Library.API
             services.AddSwaggerGen(setupAction =>
            {
                setupAction.SwaggerDoc(
-                   "LibraryOpenApiSpecification",
+
+                   // 03/15/2022 04:27 pm - SSN - [20220315-1627] - [001] - M06-03 - Demo - Working with multiple OpenAPI specifications
+                   //"LibraryOpenApiSpecification",
+                   "LibraryOpenApiSpecificationAuthors",
                    new Microsoft.OpenApi.Models.OpenApiInfo()
                    {
-                       Title = "ps-345-WebAPI - Swagger - Library API",
+                       Title = "ps-345-WebAPI - Swagger - Library API (Authors)",
                        Version = "1"
                        ,
 
                        // 03/12/2022 01:42 am - SSN - [20220312-0140] - [001] - M03-10 - Demo - Adding API information and description
-                       Description = "Through this API you can access authors and their books."
+                       Description = "Through this API you can access authors."
                        ,
                        Contact = new Microsoft.OpenApi.Models.OpenApiContact
                        {
@@ -130,6 +133,42 @@ namespace Library.API
                        TermsOfService = new Microsoft.OpenApi.Models.OpenApiInfo().TermsOfService = new Uri("https://ps345api.niyazi.com/termsofservice")
 
                    });
+
+
+
+
+
+
+               // 03/15/2022 04:29 pm - SSN - [20220315-1627] - [002] - M06-03 - Demo - Working with multiple OpenAPI specifications
+
+               setupAction.SwaggerDoc(
+
+                    "LibraryOpenApiSpecificationBooks",
+                    new Microsoft.OpenApi.Models.OpenApiInfo()
+                    {
+                        Title = "ps-345-WebAPI - Swagger - Library API (Books)",
+                        Version = "1"
+                        ,
+
+                        // 03/12/2022 01:42 am - SSN - [20220312-0140] - [001] - M03-10 - Demo - Adding API information and description
+                        Description = "Through this API you can access books."
+                        ,
+                        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                        {
+                            Email = "sam-ps-345-API@nonbs.com",
+                            Name = "Sam Niyazi",
+                            Url = new Uri("https://ps345api.niyazi.com/contact")
+                        }
+                        ,
+                        License = new Microsoft.OpenApi.Models.OpenApiLicense
+                        {
+                            Name = "MIT",
+                            Url = new Uri("https://opensource.org/licenses/MIT")
+                        }
+                        ,
+                        TermsOfService = new Microsoft.OpenApi.Models.OpenApiInfo().TermsOfService = new Uri("https://ps345api.niyazi.com/termsofservice")
+
+                    });
 
 
 
@@ -187,6 +226,9 @@ namespace Library.API
                setupAction.IncludeXmlComments(xmlcommentFileWithFullPath);
 
 
+               // 03/15/2022 04:43 pm - SSN - [20220315-1627] - [007] - M06-03 - Demo - Working with multiple OpenAPI specifications
+               setupAction.SchemaFilter<Library.API.SwaggerSchemaFilter.ProjectSpecificSchemaFilter>();
+
 
 
            });
@@ -219,9 +261,18 @@ namespace Library.API
             // 03/11/2022 07:17 pm - SSN - [20220311-1915] - [001] - M03-04 - Demo - Adding Swagger UI
             app.UseSwaggerUI(setupAction =>
             {
+
+                // 03/15/2022 04:31 pm - SSN - [20220315-1627] - [003] - M06-03 - Demo - Working with multiple OpenAPI specifications
+
                 setupAction.SwaggerEndpoint(
-                    "/swagger/LibraryOpenApiSpecification/swagger.json",
-                    "Name-102: ps-345-WebAPI - Swagger UI - Library API");
+                    "/swagger/LibraryOpenApiSpecificationAuthors/swagger.json",
+                    "ps-345-WebAPI - Swagger UI - Library API (Authors)");
+
+                setupAction.SwaggerEndpoint(
+                    "/swagger/LibraryOpenApiSpecificationBooks/swagger.json",
+                    "ps-345-WebAPI - Swagger UI - Library API (Books)");
+
+
 
                 setupAction.RoutePrefix = ""; // Makes the docs the default URL
 

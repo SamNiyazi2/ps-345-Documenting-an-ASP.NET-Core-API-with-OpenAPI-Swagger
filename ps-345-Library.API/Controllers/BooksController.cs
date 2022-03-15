@@ -17,6 +17,10 @@ namespace Library.API.Controllers
     [Produces(MediaTypesConstants.APPLICATION_JSON, MediaTypesConstants.APPLICATION_XML)]
     [Route("api/authors/{authorId}/books")]
     [ApiController]
+
+    // 03/15/2022 04:33 pm - SSN - [20220315-1627] - [005] - M06-03 - Demo - Working with multiple OpenAPI specifications
+    [ApiExplorerSettings(GroupName = "LibraryOpenApiSpecificationBooks")]
+
     // 03/12/2022 04:35 am - SSN - [20220312-0304] - [004] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
     // Removed.  Applied globally [20220312-0304] - [005] 
     //[ProducesResponseType(StatusCodes.Status400BadRequest)]
