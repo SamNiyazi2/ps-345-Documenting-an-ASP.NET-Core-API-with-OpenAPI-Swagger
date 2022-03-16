@@ -110,15 +110,16 @@ namespace Library.API.Controllers
         /// <param name="authorId">The id of the author you want to update</param>
         /// <param name="patchDocument">The set of operations to apply</param>
         /// <returns>An ActionResult of type Author.  Does not display in API documenation.</returns>
-        /// <remarks>
-        /// Sample request (this request updates the author's first name)
-        /// [\
-        ///     {\
-        ///         "op": "replace",\
-        ///         "path": "/afirstname",\
-        ///         "value": "new first name"\
-        ///     }\
-        /// ]
+        /// <remarks>Sample request (this request updates the author's **first name**)   
+        ///     PATCH /authors/authorId   
+        ///     [   
+        ///          {   
+        ///               "op": "==replace==",   
+        ///               "path": "/afirstname",  
+        ///               "value": **"new first name"**  
+        ///          }  
+        ///     ]
+        ///   
         /// </remarks>
 
         // 03/12/2022 04:54 am - SSN - [20220312-0304] - [006] - M04-05 - Demo - Using API analyzers to improve the OpenAPI specification 
