@@ -36,7 +36,7 @@ namespace Library.API.Authentication
 
             try
             {
-                var authenticationHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authentication"]);
+                var authenticationHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
                 var credentialBytes = Convert.FromBase64String(authenticationHeader.Parameter);
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(':');
                 var username = credentials[0];

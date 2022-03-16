@@ -15,7 +15,9 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -50,6 +52,10 @@ namespace Library.API
 
                 // 03/14/2022 01:49 am - SSN - [20220314-0111] - [006] - M05-08 - Demo - Supporting schema variation by media type (Input)
                 setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status415UnsupportedMediaType));
+
+
+                // 03/16/2022 12:14 am - SSN - [20220316-0005] - [002] - M06-09 - Demo - Adding authentication support to the OpenAPI specification
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status401Unauthorized));
 
 
                 // 03/15/2022 11:31 pm - SSN - [20220315-2303] - [004] - M06-08 - Demo - Protecting your API
@@ -203,6 +209,34 @@ namespace Library.API
                }
 
 
+
+               // 03/16/2022 12:07 am - SSN - [20220316-0005] - [001] - M06-09 - Demo - Adding authentication support to the OpenAPI specification
+
+               setupAction.AddSecurityDefinition("basicAuth", new Microsoft.OpenApi.Models.OpenApiSecurityScheme()
+               {
+                   Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+                   Scheme = "basic", // case-sensitive
+                   Description = "Input your username and password to access this API"
+               });
+
+
+               setupAction.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+               {
+                   {
+                        new OpenApiSecurityScheme
+
+                            {
+                                Reference = new OpenApiReference
+                                    {
+                                        Type = ReferenceType.SecurityScheme,
+                                        Id = "basicAuth"
+                                    }
+                            }
+                            , new List<string>()
+                   }
+
+
+               });
 
 
 
