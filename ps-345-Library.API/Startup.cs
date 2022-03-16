@@ -385,9 +385,19 @@ namespace Library.API
                 setupAction.DefaultModelRendering(Swashbuckle.AspNetCore.SwaggerUI.ModelRendering.Example); //default
                 setupAction.DefaultModelRendering(Swashbuckle.AspNetCore.SwaggerUI.ModelRendering.Model);
                 setupAction.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
-                setupAction.DisplayOperationId();
                 setupAction.DisplayRequestDuration();
                 setupAction.EnableFilter();
+
+
+                // 03/16/2022 02:10 am - SSN - [20220316-0209] - [001] - M07-06 - Demo - Supporting deep linking
+                setupAction.EnableDeepLinking();
+                setupAction.DisplayOperationId();
+                // Allows for:
+                // https://localhost:44305/index.html#/Books/Books_GetBook
+                // https://localhost:44305/index.html#/Authors/Authors_GetAuthor
+                // https://localhost:44305/index.html#/Authors/Authors_GetAuthors
+                // https://localhost:44305/index.html#/Authors/Authors_UpdateAuthor
+
 
 
 
