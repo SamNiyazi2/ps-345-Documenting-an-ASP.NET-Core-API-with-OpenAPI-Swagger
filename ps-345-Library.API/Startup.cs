@@ -349,6 +349,7 @@ namespace Library.API
 
             app.UseHttpsRedirection();
 
+             
 
 
             // 03/11/2022 06:25 pm - SSN - [20220310-1628] - [002] - M03-03 - Demo - Installing Swashbuckle
@@ -364,6 +365,8 @@ namespace Library.API
 
                 setupAction.InjectStylesheet("/assets/custom-ui.css");
 
+                // 03/16/2022 09:36 am - SSN - [20220316-0241] - [001] - M07-09 - Demo - Branding the UI by injecting a custom index page
+                setupAction.IndexStream = () => GetType().Assembly.GetManifestResourceStream("Library.API.EmbeddedAssets.index_v2.html");
 
 
                 // 03/15/2022 04:31 pm - SSN - [20220315-1627] - [003] - M06-03 - Demo - Working with multiple OpenAPI specifications

@@ -23,7 +23,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="EmbeddedAssets\index.html" />
+    <None Remove="EmbeddedAssets\index_v2.html" />
     <None Remove="wwwroot\Assets\custom-ui.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedAssets\index.html" />
+    <EmbeddedResource Include="EmbeddedAssets\index_v2.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +46,10 @@
 
   <ItemGroup>
     <Folder Include="CustomConventions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="EmbeddedAssets\index.html" />
   </ItemGroup>
 
 </Project>
