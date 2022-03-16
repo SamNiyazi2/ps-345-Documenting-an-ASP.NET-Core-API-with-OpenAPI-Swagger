@@ -378,6 +378,19 @@ namespace Library.API
 
                 setupAction.RoutePrefix = ""; // Makes the docs the default URL
 
+
+                // 03/16/2022 01:51 am - SSN - [20220316-0108] - [001] - M07-04 - Demo - Basic UI customization with the configuration API
+                // Format Swagger document.
+                setupAction.DefaultModelExpandDepth(2);
+                setupAction.DefaultModelRendering(Swashbuckle.AspNetCore.SwaggerUI.ModelRendering.Example); //default
+                setupAction.DefaultModelRendering(Swashbuckle.AspNetCore.SwaggerUI.ModelRendering.Model);
+                setupAction.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+                setupAction.DisplayOperationId();
+                setupAction.DisplayRequestDuration();
+                setupAction.EnableFilter();
+
+
+
             });
 
 

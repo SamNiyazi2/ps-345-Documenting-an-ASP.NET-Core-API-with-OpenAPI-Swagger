@@ -19,7 +19,7 @@
             <param name="patchDocument">The set of operations to apply</param>
             <returns>An ActionResult of type Author.  Does not display in API documenation.</returns>
             <remarks>Sample request (this request updates the author's **first name**)   
-                 PATCH /authors/authorId   
+                PATCH /authors/authorId   
                 [   
                      {   
                           "op": "==replace==",   
