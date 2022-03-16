@@ -2,12 +2,14 @@
 using Library.API.Contexts;
 using Library.API.OperationFilters;
 using Library.API.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +50,10 @@ namespace Library.API
 
                 // 03/14/2022 01:49 am - SSN - [20220314-0111] - [006] - M05-08 - Demo - Supporting schema variation by media type (Input)
                 setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status415UnsupportedMediaType));
+
+
+                // 03/15/2022 11:31 pm - SSN - [20220315-2303] - [004] - M06-08 - Demo - Protecting your API
+                setupAction.Filters.Add(new AuthorizeFilter());
 
 
                 setupAction.ReturnHttpNotAcceptable = true;
@@ -113,6 +119,18 @@ namespace Library.API
                 // 'v'(V=Major,V=Minor)
                 setupAction.GroupNameFormat = "'v'VV";
             });
+
+
+
+
+
+
+            // 03/15/2022 11:28 pm - SSN - [20220315-2303] - [003] - M06-08 - Demo - Protecting your API
+            // Order is critical.
+            services.AddAuthentication("Basic").AddScheme<AuthenticationSchemeOptions, Authentication.BasicAuthenticationHandler>("Basic", null);
+
+
+
 
 
 
@@ -275,6 +293,8 @@ namespace Library.API
 
            });
 
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -328,6 +348,12 @@ namespace Library.API
 
 
             app.UseStaticFiles();
+
+
+            // 03/15/2022 11:26 pm - SSN - [20220315-2303] - [002] - M06-08 - Demo - Protecting your API
+            // Must be called before UseMVC
+            app.UseAuthentication();
+
 
             app.UseMvc();
         }
