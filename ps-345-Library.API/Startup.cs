@@ -360,6 +360,12 @@ namespace Library.API
             app.UseSwaggerUI(setupAction =>
             {
 
+                // 03/16/2022 02:36 am - SSN - [20220316-0234] - [001] - M07-08 - Demo - Branding the UI by injecting custom CSS
+
+                setupAction.InjectStylesheet("/assets/custom-ui.css");
+
+
+
                 // 03/15/2022 04:31 pm - SSN - [20220315-1627] - [003] - M06-03 - Demo - Working with multiple OpenAPI specifications
                 // 03/15/2022 05:18 pm - SSN - [20220315-1713] - [002] - M06-05 - Demo - Versioning your API
                 // Removed muliple specifications
