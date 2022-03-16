@@ -18,8 +18,8 @@ namespace Library.API.Controllers
 
     // 03/15/2022 06:25 pm - SSN - [20220315-1713] - [010] - M06-05 - Demo - Versioning your API
     // [Route("api/authors/{authorId}/books")]
-    // [Route("api/v{version:apiVersion}/authors/{authorId}/books")]
-    [Route("api/v1.0/authors/{authorId}/books")]
+    [Route("api/v{version:apiVersion}/authors/{authorId}/books")]
+    // [Route("api/v1.0/authors/{authorId}/books")]
 
 
     [ApiController]

@@ -14,8 +14,8 @@ namespace Library.API.Controllers
 
     // 03/15/2022 06:22 pm - SSN - [20220315-1713] - [009] - M06-05 - Demo - Versioning your API
     // [Route("api/authors")]
-    //[Route("api/v{version:apiVersion}/authors")]
-    [Route("api/v1.0/authors")]
+    [Route("api/v{version:apiVersion}/authors")]
+    //[Route("api/v1.0/authors")]
 
     [ApiController]
     // 03/15/2022 04:32 pm - SSN - [20220315-1627] - [004] - M06-03 - Demo - Working with multiple OpenAPI specifications

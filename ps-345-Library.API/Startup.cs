@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +24,8 @@ namespace Library.API
 {
     public class Startup
     {
+        const string LibraryOpenApiSpecification = "LibraryOpenApiSpecification";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -103,6 +107,14 @@ namespace Library.API
             // 03/11/2022 06:21 pm - SSN - [20220310-1628] - [001] - M03-03 - Demo - Installing Swashbuckle
 
 
+            // 03/15/2022 06:42 pm - SSN - [20220315-1836] - [001] - M06-06 - Demo - Matching OpenAPI specifications to API versions
+            services.AddVersionedApiExplorer(setupAction =>
+            {
+                // 'v'(V=Major,V=Minor)
+                setupAction.GroupNameFormat = "'v'VV";
+            });
+
+
 
             // 03/15/2022 05:26 pm - SSN - [20220315-1713] - [004] - M06-05 - Demo - Versioning your API
             services.AddApiVersioning(setupAction =>
@@ -119,41 +131,86 @@ namespace Library.API
             });
 
 
+            // 03/15/2022 06:49 pm - SSN - [20220315-1836] - [002] - M06-06 - Demo - Matching OpenAPI specifications to API versions
+            // Must be added after AddApiVersioning
+            // To pickup descriptions for multiple versions.
+            // We can't use DI here because we are in the ConfigureServices method, but we are using it in the configure method
+            var apiVersionDescriptionProvider = services.BuildServiceProvider().GetService<IApiVersionDescriptionProvider>();
+
+
+
 
             services.AddSwaggerGen(setupAction =>
            {
-               setupAction.SwaggerDoc(
 
-                   // 03/15/2022 04:27 pm - SSN - [20220315-1627] - [001] - M06-03 - Demo - Working with multiple OpenAPI specifications
-                   // 03/15/2022 05:17 pm - SSN - [20220315-1713] - [001] - M06-05 - Demo - Versioning your API
-                   // Removed multiple specification. Demoed only in branch M06-03
-                   "LibraryOpenApiSpecification",
-                   //"LibraryOpenApiSpecificationAuthors",
-                   new Microsoft.OpenApi.Models.OpenApiInfo()
-                   {
-                       Title = "ps-345-WebAPI - Swagger - Library API",
-                       Version = "1"
-                       ,
+               // 03/15/2022 06:53 pm - SSN - [20220315-1836] - [003] - M06-06 - Demo - Matching OpenAPI specifications to API versions
+               foreach (var apiVerDescription in apiVersionDescriptionProvider.ApiVersionDescriptions)
+               {
 
-                       // 03/12/2022 01:42 am - SSN - [20220312-0140] - [001] - M03-10 - Demo - Adding API information and description
-                       Description = "Through this API you can access authors and their books."
-                       ,
-                       Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                   setupAction.SwaggerDoc(
+
+                       // 03/15/2022 04:27 pm - SSN - [20220315-1627] - [001] - M06-03 - Demo - Working with multiple OpenAPI specifications
+                       // 03/15/2022 05:17 pm - SSN - [20220315-1713] - [001] - M06-05 - Demo - Versioning your API
+                       // Removed multiple specification. Demoed only in branch M06-03
+                       $"{LibraryOpenApiSpecification }{apiVerDescription.GroupName}",
+                       //"LibraryOpenApiSpecificationAuthors",
+                       new Microsoft.OpenApi.Models.OpenApiInfo()
                        {
-                           Email = "sam-ps-345-API@nonbs.com",
-                           Name = "Sam Niyazi",
-                           Url = new Uri("https://ps345api.niyazi.com/contact")
-                       }
-                       ,
-                       License = new Microsoft.OpenApi.Models.OpenApiLicense
-                       {
-                           Name = "MIT",
-                           Url = new Uri("https://opensource.org/licenses/MIT")
-                       }
-                       ,
-                       TermsOfService = new Microsoft.OpenApi.Models.OpenApiInfo().TermsOfService = new Uri("https://ps345api.niyazi.com/termsofservice")
+                           Title = "ps-345-WebAPI - Swagger - Library API",
+                           //Version = "1"
+                           Version = apiVerDescription.ApiVersion.ToString()
+                           ,
 
-                   });
+                           // 03/12/2022 01:42 am - SSN - [20220312-0140] - [001] - M03-10 - Demo - Adding API information and description
+                           Description = "Through this API you can access authors and their books."
+                           ,
+                           Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                           {
+                               Email = "sam-ps-345-API@nonbs.com",
+                               Name = "Sam Niyazi",
+                               Url = new Uri("https://ps345api.niyazi.com/contact")
+                           }
+                           ,
+                           License = new Microsoft.OpenApi.Models.OpenApiLicense
+                           {
+                               Name = "MIT",
+                               Url = new Uri("https://opensource.org/licenses/MIT")
+                           }
+                           ,
+                           TermsOfService = new Microsoft.OpenApi.Models.OpenApiInfo().TermsOfService = new Uri("https://ps345api.niyazi.com/termsofservice")
+
+                       });
+
+
+               }
+
+
+
+
+
+               // 03/15/2022 07:11 pm - SSN - [20220315-1836] - [006] - M06-06 - Demo - Matching OpenAPI specifications to API versions
+               setupAction.DocInclusionPredicate((documentName, apiDescription) =>
+                  {
+                      var actionApiVersionModel = apiDescription.ActionDescriptor
+                                                    .GetApiVersionModel(ApiVersionMapping.Explicit | ApiVersionMapping.Implicit);
+
+                      if (actionApiVersionModel == null)
+                      {
+                          return true;
+                      }
+
+                      if (actionApiVersionModel.DeclaredApiVersions.Any())
+                      {
+                          return actionApiVersionModel.DeclaredApiVersions.Any(v => $"{LibraryOpenApiSpecification }v{v.ToString()}" == documentName);
+                      }
+
+                      return actionApiVersionModel.ImplementedApiVersions.Any(v => $"{LibraryOpenApiSpecification }v{v.ToString()}" == documentName);
+
+                  });
+
+
+
+
 
 
 
@@ -221,7 +278,9 @@ namespace Library.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        // 03/15/2022 07:02 pm - SSN - [20220315-1836] - [004] - M06-06 - Demo - Matching OpenAPI specifications to API versions
+        // Inject IApiVersionDescriptionProvider
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
         {
             if (env.IsDevelopment())
             {
@@ -250,10 +309,17 @@ namespace Library.API
                 // 03/15/2022 04:31 pm - SSN - [20220315-1627] - [003] - M06-03 - Demo - Working with multiple OpenAPI specifications
                 // 03/15/2022 05:18 pm - SSN - [20220315-1713] - [002] - M06-05 - Demo - Versioning your API
                 // Removed muliple specifications
-                setupAction.SwaggerEndpoint(
-                    "/swagger/LibraryOpenApiSpecification/swagger.json",
-                    "ps-345-WebAPI - Swagger UI - Library API");
 
+                // 03/15/2022 07:03 pm - SSN - [20220315-1836] - [005] - M06-06 - Demo - Matching OpenAPI specifications to API versions
+                foreach (var apiVerDescription in apiVersionDescriptionProvider.ApiVersionDescriptions)
+                {
+
+                    setupAction.SwaggerEndpoint(
+                        //"/swagger/LibraryOpenApiSpecification/swagger.json",
+                        $"/swagger/{LibraryOpenApiSpecification }{apiVerDescription.GroupName}/swagger.json",
+                        $"ps-345-WebAPI - Swagger UI - Library API - ({apiVerDescription.GroupName})");
+
+                }
 
 
                 setupAction.RoutePrefix = ""; // Makes the docs the default URL

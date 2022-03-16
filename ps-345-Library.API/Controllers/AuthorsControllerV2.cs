@@ -14,12 +14,12 @@ using System.Threading.Tasks;
 
 namespace Library.API.Controllers
 {
-    
+
     [ApiController]
     [Produces("application/json",
              "application/xml")]
-    //[Route("api/v{version:apiVersion}/authors")] 
-    [Route("api/v2.0/authors")]
+    [Route("api/v{version:apiVersion}/authors")]
+    // [Route("api/v2.0/authors")]
     [ApiVersion("2.0")]
     public class AuthorsControllerV2 : ControllerBase
     {
