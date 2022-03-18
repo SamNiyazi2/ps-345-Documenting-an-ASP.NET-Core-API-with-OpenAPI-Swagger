@@ -30,7 +30,7 @@
               
             </remarks>
         </member>
-        <member name="M:Library.API.Controllers.AuthorsControllerV2.GetAuthors">
+        <member name="M:Library.API.Controllers.Authors_v2Controller.GetAuthors">
             <summary>
             Get the authors (V2)
             </summary>

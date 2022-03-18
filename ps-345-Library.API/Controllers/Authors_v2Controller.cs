@@ -21,12 +21,12 @@ namespace Library.API.Controllers
     [Route("api/v{version:apiVersion}/authors")]
     // [Route("api/v2.0/authors")]
     [ApiVersion("2.0")]
-    public class AuthorsControllerV2 : ControllerBase
+    public class Authors_v2Controller : ControllerBase
     {
         private readonly IAuthorRepository _authorsRepository;
         private readonly IMapper _mapper;
 
-        public AuthorsControllerV2(
+        public Authors_v2Controller(
             IAuthorRepository authorsRepository,
             IMapper mapper)
         {
