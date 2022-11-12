@@ -186,7 +186,7 @@ namespace Library.API
                            ,
 
                            // 03/12/2022 01:42 am - SSN - [20220312-0140] - [001] - M03-10 - Demo - Adding API information and description
-                           Description = "Through this API you can access authors and their books."
+                           Description = "API for accessing authors and their books."
                            ,
                            Contact = getAPIContact()
                            ,
@@ -196,7 +196,7 @@ namespace Library.API
                                Url = new Uri("https://opensource.org/licenses/MIT")
                            }
                            ,
-                           TermsOfService = new Microsoft.OpenApi.Models.OpenApiInfo().TermsOfService = new Uri("https://ps345api.niyazi.com/termsofservice")
+                           TermsOfService = getTermOfService()
 
                        });
 
@@ -326,22 +326,32 @@ namespace Library.API
 
         }
 
+        // 11/12/2022 1:43 am - SSN - Remove hard-coded values
+        #region Objects from Environment variables
+        private static Uri getTermOfService()
+        {
+            string apiContactName = Environment.GetEnvironmentVariable("ps-345-apiTermOfService"); // "https://ps345api.niyazi.com/termsofservice"
+            return string.IsNullOrEmpty(apiContactName) ? null : new Microsoft.OpenApi.Models.OpenApiInfo().TermsOfService = new Uri(apiContactName);
+        }
+
         private static OpenApiContact getAPIContact()
         {
-            // 11/12/2022 1:43 am - SSN - Remove hard-coded values
             string apiContactName = Environment.GetEnvironmentVariable("ps-345-apiContactname");
             string apiContactEmail = Environment.GetEnvironmentVariable("ps-345-apiContactEmail");
             string apiContactUrlString = Environment.GetEnvironmentVariable("ps-345-apiContactUrl");
 
-            var apiContractUrl = string.IsNullOrWhiteSpace(apiContactUrlString)?null: new Uri(apiContactUrlString);
+            var apiContractUrl = string.IsNullOrWhiteSpace(apiContactUrlString) ? null : new Uri(apiContactUrlString);
 
             return new Microsoft.OpenApi.Models.OpenApiContact
             {
-                Email = apiContactEmail , //"sam-ps-345-API@nonbs.com",
+                Email = apiContactEmail, //"sam-ps-345-API@nonbs.com",
                 Name = apiContactName,
                 Url = apiContractUrl  //new Uri("https://ps345api.niyazi.com/contact")
             };
         }
+
+        #endregion Objects from Environment variables
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         // 03/15/2022 07:02 pm - SSN - [20220315-1836] - [004] - M06-06 - Demo - Matching OpenAPI specifications to API versions
@@ -361,7 +371,7 @@ namespace Library.API
 
             app.UseHttpsRedirection();
 
-             
+
 
 
             // 03/11/2022 06:25 pm - SSN - [20220310-1628] - [002] - M03-03 - Demo - Installing Swashbuckle
