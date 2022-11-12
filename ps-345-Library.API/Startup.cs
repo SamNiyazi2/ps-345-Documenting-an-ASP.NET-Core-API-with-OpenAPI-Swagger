@@ -188,12 +188,7 @@ namespace Library.API
                            // 03/12/2022 01:42 am - SSN - [20220312-0140] - [001] - M03-10 - Demo - Adding API information and description
                            Description = "Through this API you can access authors and their books."
                            ,
-                           Contact = new Microsoft.OpenApi.Models.OpenApiContact
-                           {
-                               Email = "sam-ps-345-API@nonbs.com",
-                               Name = "Sam Niyazi",
-                               Url = new Uri("https://ps345api.niyazi.com/contact")
-                           }
+                           Contact = getAPIContact()
                            ,
                            License = new Microsoft.OpenApi.Models.OpenApiLicense
                            {
@@ -321,7 +316,7 @@ namespace Library.API
 
 
                // 03/15/2022 04:43 pm - SSN - [20220315-1627] - [007] - M06-03 - Demo - Working with multiple OpenAPI specifications
-               setupAction.SchemaFilter<Library.API.SwaggerSchemaFilter.ProjectSpecificSchemaFilter>();
+               setupAction.SchemaFilter<SwaggerSchemaFilter.ProjectSpecificSchemaFilter>();
 
 
 
@@ -329,6 +324,23 @@ namespace Library.API
 
 
 
+        }
+
+        private static OpenApiContact getAPIContact()
+        {
+            // 11/12/2022 1:43 am - SSN - Remove hard-coded values
+            string apiContactName = Environment.GetEnvironmentVariable("ps-345-apiContactname");
+            string apiContactEmail = Environment.GetEnvironmentVariable("ps-345-apiContactEmail");
+            string apiContactUrlString = Environment.GetEnvironmentVariable("ps-345-apiContactUrl");
+
+            var apiContractUrl = string.IsNullOrWhiteSpace(apiContactUrlString)?null: new Uri(apiContactUrlString);
+
+            return new Microsoft.OpenApi.Models.OpenApiContact
+            {
+                Email = apiContactEmail , //"sam-ps-345-API@nonbs.com",
+                Name = apiContactName,
+                Url = apiContractUrl  //new Uri("https://ps345api.niyazi.com/contact")
+            };
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
