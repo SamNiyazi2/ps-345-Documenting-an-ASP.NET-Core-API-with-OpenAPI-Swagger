@@ -42,7 +42,9 @@ namespace Library.API.Authentication
                 var username = credentials[0];
                 var password = credentials[1];
 
-                if (username == "Pluralsight" && password == "Pluralsight")
+                // 11/12/2022 1:52 pm - SSN - Replaced
+                //if (username == "Pluralsight" && password == "Pluralsight")
+                if (username == Startup.apiUserName && password == Startup.apiPassword)
                 {
                     var claims = new[]
                     {
