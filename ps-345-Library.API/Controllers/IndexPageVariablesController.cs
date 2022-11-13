@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SSN_GenUtil_StandardLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,31 +17,55 @@ namespace Library.API.Controllers
     [ApiController]
     public class IndexPageVariablesController : ControllerBase
     {
+        private readonly ILogger_SSN logger;
+
+        public IndexPageVariablesController(ILogger_SSN logger)
+        {
+            this.logger = logger;
+        }
+
+
         [AllowAnonymous]
         // GET: api/<IndexPageVariablesController>
         [HttpGet]
         [Produces("application/json")]
         public async Task<IEnumerable<string>> Get()
         {
-            string randommerio_APIKey = Environment.GetEnvironmentVariable("randommerio_APIKey");
-            if (string.IsNullOrEmpty(randommerio_APIKey))
-            {
-                return new string[] { "Missing randommerio_APIKey - 20221112-1302" };
-            }
+
+            logger.TrackEvent("ps-345-20221112-2049:IndexPageVar: Get");
 
             string userName = null;
             string password = null;
 
-            string url_forUserName = "https://randommer.io/api/Name?nameType=firstname&quantity=1";
+            try
+            { 
 
-            userName = await getNameFromAPI(randommerio_APIKey, url_forUserName);
+                string randommerio_APIKey = Environment.GetEnvironmentVariable("randommerio_APIKey");
+                if (string.IsNullOrEmpty(randommerio_APIKey))
+                {
+                    return new string[] { "Missing randommerio_APIKey - 20221112-1302" };
+                }
 
-            string url_forPassword = "https://randommer.io/api/Text/Password?length=6&hasDigits=true&hasUppercase=true&hasSpecial=false";
 
-            password = await getNameFromAPI(randommerio_APIKey, url_forPassword);
+                string url_forUserName = "https://randommer.io/api/Name?nameType=firstname&quantity=1";
 
-            Startup.apiUserName = userName;
-            Startup.apiPassword = password;
+                userName = await getNameFromAPI(randommerio_APIKey, url_forUserName);
+
+                string url_forPassword = "https://randommer.io/api/Text/Password?length=6&hasDigits=true&hasUppercase=true&hasSpecial=false";
+
+                password = await getNameFromAPI(randommerio_APIKey, url_forPassword);
+
+                Startup.apiUserName = userName;
+                Startup.apiPassword = password;
+
+            }
+            catch (Exception ex)
+            {
+
+                logger.PostException(ex, "ps-345-20221112-2050:IndexPageVar", "Get error");
+
+            }
+
 
             return new string[] { userName, password };
         }

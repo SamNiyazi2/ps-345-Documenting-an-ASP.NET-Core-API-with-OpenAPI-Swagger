@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
@@ -326,6 +327,28 @@ namespace Library.API
 
 
            });
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
+
+
+
+
+            // 11/12/2022 02:34 pm - SSN - [20221112-1434] - [001] - Add ApplicationInsight
+
+            services.AddSingleton<SSN_GenUtil_StandardLib.ILogger_SSN, SSN_GenUtil_StandardLib.SSN_Logger>();
+
+            SSN_GenUtil_StandardLib.SSN_Logger logger = new SSN_GenUtil_StandardLib.SSN_Logger();
+
+            string testKey = Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"];
+
+            if (!string.IsNullOrWhiteSpace(testKey))
+            {
+                SSN_GenUtil_StandardLib.SSN_Logger.telemetry.InstrumentationKey = testKey;
+            }
+
+            // LogInformation not working
+            logger.LogInformation($"101-ps-345-swashbuckle-swagger-openapi-Testing");
+            logger.TrackEvent("ps-345-swashbuckle-swagger-openapi-Testing");
+
 
 
 
