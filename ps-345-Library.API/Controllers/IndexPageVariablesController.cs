@@ -17,6 +17,7 @@ namespace Library.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class IndexPageVariablesController : ControllerBase
     {
         private readonly ILogger_SSN logger;
