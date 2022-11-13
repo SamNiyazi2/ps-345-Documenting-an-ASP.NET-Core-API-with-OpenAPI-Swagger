@@ -24,12 +24,12 @@ namespace Library.API.Authentication
         public class Random_Data_API_Record
         {
 
-            private string _first_Name;
+            private string _userName;
 
-            public string First_Name
+            public string UserName
             {
-                get { return _first_Name; }
-                set { _first_Name = value?.Trim(); }
+                get { return _userName; }
+                set { _userName = value?.Trim(); }
             }
 
             private string _password;

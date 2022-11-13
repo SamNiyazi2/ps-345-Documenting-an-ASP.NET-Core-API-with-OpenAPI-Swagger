@@ -61,11 +61,11 @@ namespace Library.API.Controllers
                 Random_Data_API_Record apiRecord = await getNameFromRandom_data_api(url_forUserName);
                 if (apiRecord != null)
                 {
-                    userName = apiRecord.First_Name;
+                    userName = apiRecord.UserName;
                     password = apiRecord.Password;
                 }
 
-                AuthenticationUtil.apiCredList.AddOrUpdate(AuthenticationUtil.createDicKey(userName, password), new Random_Data_API_Record { First_Name = userName, Password = password }, addOrUpdateCredList);
+                AuthenticationUtil.apiCredList.AddOrUpdate(AuthenticationUtil.createDicKey(userName, password), new Random_Data_API_Record { UserName = userName, Password = password }, addOrUpdateCredList);
 
             }
             catch (Exception ex)
