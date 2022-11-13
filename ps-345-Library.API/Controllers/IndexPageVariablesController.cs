@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Library.API.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SSN_GenUtil_StandardLib;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using static Library.API.Authentication.AuthenticationUtil;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 // 11/12/2022 11:14 am - SSN - Mainly to get username and password for API
@@ -63,8 +65,7 @@ namespace Library.API.Controllers
                     password = apiRecord.Password;
                 }
 
-                    Startup.apiUserName = userName;
-                Startup.apiPassword = password;
+                AuthenticationUtil.apiCredList.AddOrUpdate(AuthenticationUtil.createDicKey(userName, password), new Random_Data_API_Record { First_Name = userName, Password = password }, addOrUpdateCredList);
 
             }
             catch (Exception ex)
@@ -78,7 +79,12 @@ namespace Library.API.Controllers
             return new string[] { userName, password };
         }
 
-     
+
+
+        private Random_Data_API_Record addOrUpdateCredList(string key, Random_Data_API_Record newRecord)
+        {
+            return newRecord;
+        }
 
         private static async Task<string> getNameFromAPI_RandommerIO(string randommerio_APIKey, string url_forUserName)
         {
@@ -131,11 +137,6 @@ namespace Library.API.Controllers
             return returnRecord;
         }
 
-        public class Random_Data_API_Record
-        {
-            public string First_Name { get; set; }
-            public string Password { get; set; }
-        }
 
         // GET api/<IndexPageVariablesController>/5
         [HttpGet("{id}")]

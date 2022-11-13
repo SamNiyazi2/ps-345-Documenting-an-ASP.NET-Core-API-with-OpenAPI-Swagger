@@ -29,10 +29,6 @@ namespace Library.API
 {
     public class Startup
     {
-        // 11/12/2022 01:37 pm - SSN - Adding for dynamically assigned username/password. Replace Pluralsight/Pluralsight
-        public static string apiUserName { get; set; }
-        public static string apiPassword { get; set; }
-
 
         const string LibraryOpenApiSpecification = "LibraryOpenApiSpecification";
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SSN_GenUtil_StandardLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using static Library.API.Authentication.AuthenticationUtil;
+using static Library.API.Controllers.IndexPageVariablesController;
 
 // 03/15/2022 11:05 pm - SSN - [20220315-2303] - [001] - M06-08 - Demo - Protecting your API
 
@@ -16,13 +19,17 @@ namespace Library.API.Authentication
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
+        private readonly ILogger_SSN logger_SSN;
+
+        // 11/13/2022 12:16 am - SSN - Add ILogger_SSN
         public BasicAuthenticationHandler(
                                                 IOptionsMonitor<AuthenticationSchemeOptions> options,
                                                 ILoggerFactory logger,
                                                 UrlEncoder encoder,
-                                                ISystemClock clock) : base(options, logger, encoder, clock)
+                                                ISystemClock clock,
+                                                ILogger_SSN logger_SSN) : base(options, logger, encoder, clock)
         {
-
+            this.logger_SSN = logger_SSN;
         }
 
 
@@ -44,7 +51,7 @@ namespace Library.API.Authentication
 
                 // 11/12/2022 1:52 pm - SSN - Replaced
                 //if (username == "Pluralsight" && password == "Pluralsight")
-                if (username == Startup.apiUserName && password == Startup.apiPassword)
+                if (isValidCredential(username, password))
                 {
                     var claims = new[]
                     {
@@ -64,12 +71,18 @@ namespace Library.API.Authentication
             }
             catch (Exception ex)
             {
-
+                logger_SSN.PostException(ex, "ps-345-BasicAuthenticationHandler:20221113-0018", "Error in authentication.");
                 return Task.FromResult(AuthenticateResult.Fail("Invalid Authorization header (2)"));
 
             }
 
 
+        }
+
+        private bool isValidCredential(string username, string password)
+        {
+            Random_Data_API_Record record = AuthenticationUtil.apiCredList.FirstOrDefault(r => r.Key == AuthenticationUtil.createDicKey(username, password)).Value;
+            return record != null;
         }
 
 
