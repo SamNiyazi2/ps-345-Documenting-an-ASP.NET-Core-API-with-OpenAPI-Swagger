@@ -38,7 +38,7 @@ namespace Library.API.Controllers
             string password = null;
 
             try
-            { 
+            {
 
                 string randommerio_APIKey = Environment.GetEnvironmentVariable("randommerio_APIKey");
                 if (string.IsNullOrEmpty(randommerio_APIKey))
@@ -47,22 +47,30 @@ namespace Library.API.Controllers
                 }
 
 
-                string url_forUserName = "https://randommer.io/api/Name?nameType=firstname&quantity=1";
+                // 11/12/2022 11:36 pm - SSN - randommer.io give 503 in Azure. Replace API with random-data-api.com
+                // string url_forUserName = "https://randommer.io/api/Name?nameType=firstname&quantity=1";
+                // userName = await getNameFromAPI(randommerio_APIKey, url_forUserName);
 
-                userName = await getNameFromAPI(randommerio_APIKey, url_forUserName);
+                // string url_forPassword = "https://randommer.io/api/Text/Password?length=6&hasDigits=true&hasUppercase=true&hasSpecial=false";
+                // password = await getNameFromAPI(randommerio_APIKey, url_forPassword);
 
-                string url_forPassword = "https://randommer.io/api/Text/Password?length=6&hasDigits=true&hasUppercase=true&hasSpecial=false";
 
-                password = await getNameFromAPI(randommerio_APIKey, url_forPassword);
+                string url_forUserName = "https://random-data-api.com/api/v2/users";
+                Random_Data_API_Record apiRecord = await getNameFromRandom_data_api(url_forUserName);
+                if (apiRecord != null)
+                {
+                    userName = apiRecord.First_Name;
+                    password = apiRecord.Password;
+                }
 
-                Startup.apiUserName = userName;
+                    Startup.apiUserName = userName;
                 Startup.apiPassword = password;
 
             }
             catch (Exception ex)
             {
 
-                logger.PostException(ex, "ps-345-20221112-2050:IndexPageVar", "Get error");
+                await logger.PostException(ex, "ps-345-20221112-2050:IndexPageVar", "Get error");
 
             }
 
@@ -70,13 +78,15 @@ namespace Library.API.Controllers
             return new string[] { userName, password };
         }
 
+     
 
-        private static async Task<string> getNameFromAPI(string randommerio_APIKey, string url_forUserName)
+        private static async Task<string> getNameFromAPI_RandommerIO(string randommerio_APIKey, string url_forUserName)
         {
             string userName = null;
 
             using (var client = new HttpClient())
             {
+
                 client.DefaultRequestHeaders.Add("X-Api-Key", randommerio_APIKey);
 
                 var response = await client.GetAsync(new Uri(url_forUserName));
@@ -98,6 +108,33 @@ namespace Library.API.Controllers
             }
 
             return userName;
+        }
+
+
+        private static async Task<Random_Data_API_Record> getNameFromRandom_data_api(string url_forUserName)
+        {
+            Random_Data_API_Record returnRecord = null;
+
+            using (var client = new HttpClient())
+            {
+
+                var response = await client.GetAsync(new Uri(url_forUserName));
+
+                response.EnsureSuccessStatusCode();
+
+                var content = await response.Content.ReadAsStringAsync();
+
+                returnRecord = JsonConvert.DeserializeObject<Random_Data_API_Record>(content);
+
+            }
+
+            return returnRecord;
+        }
+
+        public class Random_Data_API_Record
+        {
+            public string First_Name { get; set; }
+            public string Password { get; set; }
         }
 
         // GET api/<IndexPageVariablesController>/5

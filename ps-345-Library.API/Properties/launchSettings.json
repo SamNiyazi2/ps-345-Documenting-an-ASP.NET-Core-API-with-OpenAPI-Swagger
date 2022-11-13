@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:51415",
+      "applicationUrl": "http://p44305.nonbs.org:51415",
       "sslPort": 44305
     }
   },
